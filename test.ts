@@ -2,7 +2,6 @@ import * as discord from "https://deno.land/x/harmony@v2.0.0-rc2/mod.ts";
 import * as voice from "./mod.ts";
 import ytsr from "https://deno.land/x/youtube_sr@v4.0.1-deno/mod.ts";
 import { getInfo } from "https://deno.land/x/ytdl_core@0.0.1/mod.ts";
-import { PCMStream } from "./src/ffmpeg.ts";
 import { TOKEN } from "./config.ts";
 
 const client = new discord.CommandClient({
@@ -31,14 +30,16 @@ client.commands.add(
       const data = await vs.channel.join({ deaf: true });
 
       const conn = new voice.VoiceConnection(client.user!.id, {
-        mode: "xsalsa20_poly1305_lite",
+        mode: "xsalsa20_poly1305",
         receive: "opus",
       });
+
       conn.voiceStateUpdate({
         guildID: data.guild.id,
         channelID: vs.channel.id,
         sessionID: data.sessionID,
       });
+
       conn.voiceServerUpdate({ endpoint: data.endpoint, token: data.token });
 
       conn.connect();
@@ -76,7 +77,7 @@ client.commands.add(
       const url = info.formats.find((e) => e.hasAudio && !e.hasVideo)!.url;
 
       const player = conn.player();
-      const stream = new PCMStream(url);
+      const stream = new voice.PCMStream(url);
       stream.pipeTo(player.writable);
 
       ctx.message.reply("Playing now - " + search.title + "!");
