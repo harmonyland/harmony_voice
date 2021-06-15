@@ -3,10 +3,11 @@ import * as voice from "./mod.ts";
 import ytsr from "https://deno.land/x/youtube_sr@v4.0.1-deno/mod.ts";
 import { getInfo } from "https://deno.land/x/ytdl_core@0.0.1/mod.ts";
 import { PCMStream } from "./src/ffmpeg.ts";
+import { TOKEN } from "./config.ts";
 
 const client = new discord.CommandClient({
   prefix: ".",
-  token: "NzgzOTM3ODQwNzUyMDk5MzMy.X8iBAg.By5XYtVbCkVaYC89SYJWOBYhXYA",
+  token: TOKEN,
   intents: ["GUILDS", "GUILD_VOICE_STATES", "GUILD_MESSAGES"],
 });
 
