@@ -1,4 +1,4 @@
-# discord_voice
+# harmony_voice
 
 Discord Voice API implementation for Deno.
 
